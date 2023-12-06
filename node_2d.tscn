@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo327h21d5dbr"]
+
+[ext_resource type="Shader" path="res://fractal.gdshader" id="1_qwy7m"]
+[ext_resource type="Texture2D" uid="uid://clbycxbeyhavx" path="res://icon.svg" id="2_yokqm"]
+[ext_resource type="Script" path="res://zoom.gd" id="3_yli4b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q55tt"]
+shader = ExtResource("1_qwy7m")
+shader_parameter/xmin = -4.0
+shader_parameter/xmax = 2.0
+shader_parameter/ymin = -2.0
+shader_parameter/ymax = 2.0
+shader_parameter/dither = false
+
+[node name="FractalVisualizer" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_q55tt")
+position = Vector2(400, 300)
+scale = Vector2(6.25, 4.6875)
+texture = ExtResource("2_yokqm")
+script = ExtResource("3_yli4b")
