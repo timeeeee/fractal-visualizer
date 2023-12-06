@@ -4,6 +4,7 @@ var window = Rect2(-2.75, -1.5, 4.0, 3.0)
 var start_window = window
 var zoom_delta = 1.2
 var supersample: bool = true
+var max_iterations: int = 256
 
 var screen_size: Vector2
 
@@ -11,6 +12,7 @@ var screen_size: Vector2
 func _ready():
 	set_shader_window()
 	material.set_shader_parameter("supersample", supersample)
+	material.set_shader_parameter("max_iterations", max_iterations)
 	screen_size = get_viewport().size
 
 
@@ -63,6 +65,17 @@ func _input(event):
 		if event.is_action_pressed("toggle_supersample"):
 			supersample = not supersample
 			material.set_shader_parameter("supersample", supersample)
+			
+		if event.is_action_pressed("increase_iterations"):
+			max_iterations *= 2
+			material.set_shader_parameter("max_iterations", max_iterations)
+			print("max_iterations increased to ", max_iterations)
+
+		if event.is_action_pressed("decrease_iterations"):
+			max_iterations /= 2
+			material.set_shader_parameter("max_iterations", max_iterations)
+			print("max_iterations decreased to ", max_iterations)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

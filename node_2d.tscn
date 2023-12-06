@@ -11,6 +11,7 @@ shader_parameter/xmax = 2.0
 shader_parameter/ymin = -2.0
 shader_parameter/ymax = 2.0
 shader_parameter/supersample = true
+shader_parameter/max_iterations = 200
 
 [node name="FractalVisualizer" type="Node2D"]
 

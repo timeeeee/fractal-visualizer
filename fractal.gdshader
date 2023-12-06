@@ -5,8 +5,9 @@ uniform float xmax = 2;
 uniform float ymin = -2;
 uniform float ymax = 2;
 uniform bool supersample = true;
+uniform int max_iterations = 256;
 
-const int MAX_ITERATIONS = 1000;
+// const int MAX_ITERATIONS = 1000;
 
 float random (vec2 st) {
     return fract(sin(dot(
@@ -57,14 +58,14 @@ vec2 to_polar(vec2 c) {
 // repeat z = z * z + c until beyond 2,2
 int iteration_count(complex c) {
 	complex z = c;
-	for (int i = 0; i < MAX_ITERATIONS; i++) {
+	for (int i = 0; i < max_iterations; i++) {
 		z = cadd(cpow(z, 2), c);
 		if (cabs_squared(z) > 4.0) {
 			return i;
 		}
 	}
 
-	return MAX_ITERATIONS;
+	return max_iterations;
 }
 
 
@@ -82,12 +83,12 @@ vec3 hsb2rgb( in vec3 c ){
 
 vec3 color_at_point(vec2 point) {
 	int count = iteration_count(complex(point.x, point.y));
-	if (count == MAX_ITERATIONS) {
+	if (count == max_iterations) {
 		return vec3(0.0);
 	}
 	
 	float mix_min = log(1);
-	float mix_max = log(float(MAX_ITERATIONS));
+	float mix_max = log(float(max_iterations));
 	float mix_value = (log(float(count)) - mix_min) / (mix_max - mix_min);
 
 	return hsb2rgb(vec3(mix_value, 1.0, 1.0));
@@ -96,19 +97,19 @@ vec3 color_at_point(vec2 point) {
 void fragment() {
 	float x = mix(xmin, xmax, UV.x);
 	float y = mix(ymin, ymax, UV.y);	
-	int samples = 4;
+	int samples = 3;
 	if (supersample) {
 		vec3 color_here = vec3(0.0);
 		for (int x_offset = 0; x_offset < samples; x_offset++) {
 			float dx = float(x_offset) * SCREEN_PIXEL_SIZE.x * (xmax - xmin) / float(samples);
-			for (int y_offset = 0; y_offset < 2; y_offset++) {
+			for (int y_offset = 0; y_offset < samples; y_offset++) {
 				float dy = float(y_offset) * SCREEN_PIXEL_SIZE.y * (ymax - ymin) / float(samples);
 				vec2 point = vec2(x + dx, y + dy);
 				color_here += color_at_point(point);
 			}
 		}
 		
-		COLOR = vec4(color_here / float(samples), 1.0);
+		COLOR = vec4(color_here / pow(float(samples), 2.0), 1.0);
 	} else {
 		COLOR = vec4(color_at_point(vec2(x, y)), 1.0);
 	}
