@@ -57,10 +57,6 @@ func _input(event):
 			set_shader_window()
 			
 			var pos = get_viewport().get_mouse_position()
-			print(pos)
-			print(screen_to_coord(pos))
-			print(coord_to_screen(screen_to_coord(pos)))
-			print()
 			
 	if event is InputEventKey:
 		if event.is_action_pressed("toggle_dither"):
