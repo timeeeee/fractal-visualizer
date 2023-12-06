@@ -10,7 +10,7 @@ shader_parameter/xmin = -4.0
 shader_parameter/xmax = 2.0
 shader_parameter/ymin = -2.0
 shader_parameter/ymax = 2.0
-shader_parameter/dither = false
+shader_parameter/supersample = true
 
 [node name="FractalVisualizer" type="Node2D"]
 

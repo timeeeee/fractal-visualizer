@@ -6,4 +6,4 @@
 
 Use the mouse to move the window, and the scroll wheel to zoom in and out.
 
-Use the spacebar to toggle temporal dithering
+Use the spacebar to toggle supersampling

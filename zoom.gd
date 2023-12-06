@@ -1,15 +1,16 @@
 extends Sprite2D
 
 var window = Rect2(-2.75, -1.5, 4.0, 3.0)
+var start_window = window
 var zoom_delta = 1.2
-var dither: bool = true
+var supersample: bool = true
 
 var screen_size: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_shader_window()
-	material.set_shader_parameter("dither", dither)
+	material.set_shader_parameter("supersample", supersample)
 	screen_size = get_viewport().size
 
 
@@ -59,9 +60,9 @@ func _input(event):
 			var pos = get_viewport().get_mouse_position()
 			
 	if event is InputEventKey:
-		if event.is_action_pressed("toggle_dither"):
-			dither = not dither
-			material.set_shader_parameter("dither", dither)
+		if event.is_action_pressed("toggle_supersample"):
+			supersample = not supersample
+			material.set_shader_parameter("supersample", supersample)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
